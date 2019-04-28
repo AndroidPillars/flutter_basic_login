@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basic_login/dashboard_screen.dart';
 
 void main() => runApp(MaterialApp(
+  debugShowCheckedModeBanner: false,
   home: MyApp(),
 ));
 
@@ -18,7 +20,7 @@ class MyHomePageState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
         home: Scaffold(
           key: scaffoldKey,
           body: Container(
@@ -43,16 +45,21 @@ class MyHomePageState extends State<MyApp> {
                 ],
                     //Setting the gradient color with values
                     colors: [
-                  Colors.red[800],
-                  Colors.red[600],
-                  Colors.red[400],
-                  Colors.red[200]
-                ])),
+                  Colors.white,
+                  Colors.white,
+                  Colors.white,
+                  Colors.white]
+
+                  // Colors.red[200],
+                  // Colors.red[400],
+                  // Colors.red[600],
+                  // Colors.red[800]
+                )),
             child: Center(
               child: ListView(
                 shrinkWrap: true,
                 children: <Widget>[
-                  Image.asset('assets/logo.png'),
+                  Image.asset('assets/img_logo.png'),
                   SizedBox(
                     height: 10.0,
                   ),
@@ -66,9 +73,11 @@ class MyHomePageState extends State<MyApp> {
                           //Function for validation
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Please Enter the Valid Data';
+                              return 'Please Enter the Email Id';
                             } else if (value.length < 5) {
-                              return 'Please Enter the Valid Data';
+                              return 'Please Enter the Valid Email Id';
+                            }else if (!isEmail(value)) {
+                              return 'Please Enter the Valid Email Id';
                             }
                           },
                           //input-type
@@ -100,7 +109,7 @@ class MyHomePageState extends State<MyApp> {
                               labelText: 'Email',
                               //icon-inside-label
                               prefixIcon:
-                                  Icon(Icons.email, color: Colors.white),
+                                  Icon(Icons.email, color: Colors.red),
                               contentPadding:
                                   EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                               //outline-border
@@ -112,9 +121,9 @@ class MyHomePageState extends State<MyApp> {
                         TextFormField(
                             validator: (value) {
                               if (value.isEmpty) {
-                                return 'Please Enter the Valid Data';
+                                return 'Please Enter the Password';
                               } else if (value.length < 5) {
-                                return 'Please Enter the Valid Data';
+                                return 'Please must be more than 5 characters';
                               }
                             },
                             autofocus: false,
@@ -122,10 +131,11 @@ class MyHomePageState extends State<MyApp> {
                             obscureText: true,
                             maxLength: 14,
                             decoration: InputDecoration(
-                                hintText: 'Password',
+                             // hintText: 'Password',
+                                labelText: 'Password',
                                 prefixIcon: Icon(
                                   Icons.lock_open,
-                                  color: Colors.white,
+                                  color: Colors.red,
                                 ),
                                 contentPadding:
                                     EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -154,7 +164,7 @@ class MyHomePageState extends State<MyApp> {
                             //For Navigating to other screen
                             Navigator.pushReplacement(context,
                                 MaterialPageRoute(
-                                    builder: (context) => MyFirstPage()));
+                                    builder: (context) => DashBoardScreen()));
                           } else {
                             scaffoldKey.currentState.showSnackBar(
                                 SnackBar(content: Text("Error!!!")));
@@ -175,7 +185,7 @@ class MyHomePageState extends State<MyApp> {
                         TextSpan(
                           style: TextStyle(
                               fontSize: 18.0,
-                              color: Colors.white,
+                              color: Colors.red,
                               decoration: TextDecoration.underline),
                           text: 'Forget Password?',
                         ),
@@ -194,17 +204,18 @@ class MyHomePageState extends State<MyApp> {
               ),
             ),
           ),
-        ));
+          ),
+        );
   }
 }
 
-class MyFirstPage extends StatelessWidget {
-  
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: Text('Welcome'),
-    ));
-  }
+// Email validation
+ bool isEmail(String em) {
+
+  String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+  RegExp regExp = new RegExp(p);
+
+  return regExp.hasMatch(em);
 }
+
